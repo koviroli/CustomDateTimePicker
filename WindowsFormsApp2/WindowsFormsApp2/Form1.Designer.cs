@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.label2 = new System.Windows.Forms.Label();
-            this.myDateTimePicker2 = new WindowsFormsApp2.MyDateTimePicker();
+            this.myDateTimePicker2 = new WindowsFormsApp2.CustomDateTimePicker();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -87,7 +87,7 @@
 
         #endregion
         private System.Windows.Forms.Label label2;
-        private MyDateTimePicker myDateTimePicker2;
+        private CustomDateTimePicker myDateTimePicker2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
     }

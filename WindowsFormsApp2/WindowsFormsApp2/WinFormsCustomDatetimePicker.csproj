@@ -71,19 +71,19 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyDateTimePicker.cs">
+    <Compile Include="CustomDateTimePicker.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MyDateTimePicker.Designer.cs">
-      <DependentUpon>MyDateTimePicker.cs</DependentUpon>
+    <Compile Include="CustomDateTimePicker.Designer.cs">
+      <DependentUpon>CustomDateTimePicker.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyDateTimePicker.resx">
-      <DependentUpon>MyDateTimePicker.cs</DependentUpon>
+    <EmbeddedResource Include="CustomDateTimePicker.resx">
+      <DependentUpon>CustomDateTimePicker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
