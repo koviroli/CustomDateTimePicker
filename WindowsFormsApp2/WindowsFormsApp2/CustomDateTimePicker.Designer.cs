@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsApp2
 {
-    partial class MyDateTimePicker
+    partial class CustomDateTimePicker
     {
         /// <summary> 
         /// Required designer variable.

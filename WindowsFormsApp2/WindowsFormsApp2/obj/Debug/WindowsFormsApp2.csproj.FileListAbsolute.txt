@@ -95,10 +95,10 @@ E:\Work\MyDateTimePicker\WindowsFormsApp2\WindowsFormsApp2\bin\Debug\ja\DevExpre
 E:\Work\MyDateTimePicker\WindowsFormsApp2\WindowsFormsApp2\bin\Debug\ru\DevExpress.Pdf.v17.1.Core.resources.dll
 E:\Work\MyDateTimePicker\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csprojAssemblyReference.cache
 E:\Work\MyDateTimePicker\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Form1.resources
-E:\Work\MyDateTimePicker\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.MyDateTimePicker.resources
 E:\Work\MyDateTimePicker\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Properties.Resources.resources
 E:\Work\MyDateTimePicker\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.GenerateResource.cache
 E:\Work\MyDateTimePicker\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.CoreCompileInputs.cache
 E:\Work\MyDateTimePicker\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.CopyComplete
 E:\Work\MyDateTimePicker\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.exe
 E:\Work\MyDateTimePicker\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.pdb
+E:\Work\MyDateTimePicker\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.CustomDateTimePicker.resources

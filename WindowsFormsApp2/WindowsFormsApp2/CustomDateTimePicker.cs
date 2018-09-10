@@ -14,7 +14,7 @@ namespace WindowsFormsApp2
     /// <summary>
     /// DatetimePicker control, for handling continuous date typing and placeholder text
     /// </summary>
-    public partial class MyDateTimePicker : UserControl
+    public partial class CustomDateTimePicker : UserControl
     {
         /// <summary>
         /// Popup window for Calendar
@@ -142,7 +142,7 @@ namespace WindowsFormsApp2
         }
         #endregion
 
-        public MyDateTimePicker()
+        public CustomDateTimePicker()
         {
             InitializeComponent();
             m_popup = new PopupCalendar();
