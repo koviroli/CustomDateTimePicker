@@ -79,12 +79,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UltraDateTimePicker.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UltraDateTimePicker.Designer.cs">
-      <DependentUpon>UltraDateTimePicker.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
