@@ -35,7 +35,7 @@ namespace WindowsFormsApp2
         /// <summary>
         /// Separator of Date
         /// </summary>
-        public char Separator { get; set; }
+        private char Separator { get; set; }
 
         /// <summary>
         /// Value of TextBox parsed to DateTime
@@ -50,6 +50,10 @@ namespace WindowsFormsApp2
                     return DateTime.Now;
             }
         }
+
+        public int MaximumYear { get; set; } = 2600;
+
+        public int MinimumYear { get; set; } = 1;
         
         /// <summary>
         /// Determine if is there a valid DateTime value in the TextBox
@@ -148,9 +152,12 @@ namespace WindowsFormsApp2
             m_popup.Location = new Point(2, 24);
             m_popup.MCalendar.DateSelected += _mc_DateSelected;
             m_popup.m_tsdd.Closing += M_tsdd_Closing;
-            DateFormat = ECultureDateFormat.ddmmyyyy;
-            Separator = '/';
-            SetPlaceholderText();
+        }
+
+        public void SetSeparator(char separator)
+        {
+            if (separator != '\0')
+                Separator = separator;
         }
 
         #region Calendar handle
@@ -202,24 +209,22 @@ namespace WindowsFormsApp2
                 tbDate.Text = DateTime.Now.ToString(DateFormatText);
                 tbDate.ForeColor = Color.Black;
             }
-            if(IsTwoSeparators())
+
+            CheckDateValidity();
+            if (tbDate.SelectionStart <= FirstSeparatorIndex)
             {
-                CheckDateValidity();
-                if (tbDate.SelectionStart <= FirstSeparatorIndex)
-                {
-                    tbDate.SelectionStart = 0;
-                    tbDate.SelectionLength = FirstSeparatorIndex;
-                }
-                else if(tbDate.SelectionStart > FirstSeparatorIndex && tbDate.SelectionStart <= SecondSeparatorIndex)
-                {
-                    tbDate.SelectionStart = FirstSeparatorIndex + 1;
-                    tbDate.SelectionLength = SecondSeparatorIndex - FirstSeparatorIndex - 1;
-                }
-                else
-                {
-                    tbDate.SelectionStart = SecondSeparatorIndex + 1;
-                    tbDate.SelectionLength = tbDate.TextLength - SecondSeparatorIndex - 1;
-                }
+                tbDate.SelectionStart = 0;
+                tbDate.SelectionLength = FirstSeparatorIndex;
+            }
+            else if(tbDate.SelectionStart > FirstSeparatorIndex && tbDate.SelectionStart <= SecondSeparatorIndex)
+            {
+                tbDate.SelectionStart = FirstSeparatorIndex + 1;
+                tbDate.SelectionLength = SecondSeparatorIndex - FirstSeparatorIndex - 1;
+            }
+            else
+            {
+                tbDate.SelectionStart = SecondSeparatorIndex + 1;
+                tbDate.SelectionLength = tbDate.TextLength - SecondSeparatorIndex - 1;
             }
         }
 
@@ -231,6 +236,12 @@ namespace WindowsFormsApp2
 
         private void tbDate_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if(tbDate.SelectionLength == 10)
+            {
+                tbDate.SelectionStart = 0;
+                tbDate.SelectionLength = FirstSeparatorIndex;
+
+            }
             if (e.KeyChar == 8)
             {
                 e.Handled = true;
@@ -242,11 +253,6 @@ namespace WindowsFormsApp2
                 e.Handled = true;
             }
         }
-
-        private bool IsTwoSeparators()
-        {
-            return tbDate.Text.Count(f => f == Separator) == 2;
-        }
         
         private string GetFirstSeparatorBefore()
         {
@@ -257,12 +263,7 @@ namespace WindowsFormsApp2
 
         private string GetFirstSeparatorAfter()
         {
-            if (FirstSeparatorIndex < 0) return "";
-
-            if (IsTwoSeparators())
-                return tbDate.Text.Substring(FirstSeparatorIndex + 1, SecondSeparatorIndex - 1 - FirstSeparatorIndex);
-            else
-                return tbDate.Text.Substring(FirstSeparatorIndex + 1, tbDate.Text.Length - 1 - FirstSeparatorIndex);
+            return tbDate.Text.Substring(FirstSeparatorIndex + 1, SecondSeparatorIndex - 1 - FirstSeparatorIndex);
         }
 
         private string GetSecondSeparatorAfter()
@@ -369,12 +370,7 @@ namespace WindowsFormsApp2
             switch (DateFormat)
             {
                 case ECultureDateFormat.ddmmyyyy:
-                    if (FirstSeparatorIndex < 0)
-                        tbDate.Text = $"{day}";
-                    else if(IsTwoSeparators())
                         tbDate.Text = $"{day}{Separator}{GetFirstSeparatorAfter()}{Separator}{GetSecondSeparatorAfter()}";
-                    else
-                        tbDate.Text = $"{day}{Separator}{GetFirstSeparatorAfter()}";
                     break;
                 case ECultureDateFormat.mmddyyyy:
                     if(SecondSeparatorIndex < 0)
@@ -406,10 +402,7 @@ namespace WindowsFormsApp2
                         tbDate.Text = $"{month}{Separator}{GetFirstSeparatorAfter()}{Separator}{GetSecondSeparatorAfter()}";
                     break;
                 case ECultureDateFormat.yyyymmdd:
-                    if(IsTwoSeparators())
                         tbDate.Text = $"{GetFirstSeparatorBefore()}{Separator}{month}{Separator}{GetSecondSeparatorAfter()}";
-                    else
-                        tbDate.Text = $"{GetFirstSeparatorBefore()}{Separator}{month}";
                     break;
             }
         }
@@ -512,7 +505,7 @@ namespace WindowsFormsApp2
                     }
                     if(Year != null)
                     {
-                        if (Year > 3000 || Year < 1)
+                        if (Year > MaximumYear || Year < MinimumYear)
                         {
                             result = false;
                             SetYear("2018");
@@ -541,7 +534,7 @@ namespace WindowsFormsApp2
                     }
                     if (Year != null)
                     {
-                        if (Year > 3000 || Year < 1)
+                        if (Year > MaximumYear || Year < MinimumYear)
                         {
                             result = false;
                             SetYear("2018");
@@ -570,7 +563,7 @@ namespace WindowsFormsApp2
                     }
                     if (Year != null )
                     {
-                        if(Year > 3000 || Year < 1)
+                        if(Year > MaximumYear || Year < MinimumYear)
                         {
                             result = false;
                             SetYear(DateTime.Now.Year.ToString());
@@ -596,6 +589,11 @@ namespace WindowsFormsApp2
             int visibleTime = 1000;
             ToolTip tt = new ToolTip();
             tt.Show(PlaceHolderText, TB, 0, 21, visibleTime);
+        }
+
+        private void CustomDateTimePicker_Load(object sender, EventArgs e)
+        {
+            SetPlaceholderText();
         }
     }
     #region Popup Calendar

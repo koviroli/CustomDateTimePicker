@@ -18,6 +18,10 @@ namespace WindowsFormsApp2
         public Form1()
         {
             InitializeComponent();
+
+            myDateTimePicker2.SetSeparator('/');
+            myDateTimePicker2.DateFormat = ECultureDateFormat.yyyymmdd;
+
             mcalendar = new MonthCalendar();
             mcalendar.Margin = new Padding(0);
             mcalendar.Location = new Point(-5, -5);

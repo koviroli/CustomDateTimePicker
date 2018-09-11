@@ -40,7 +40,6 @@
             this.tbDate.Name = "tbDate";
             this.tbDate.Size = new System.Drawing.Size(105, 20);
             this.tbDate.TabIndex = 0;
-            this.tbDate.Text = "DD/MM/YYYY";
             this.tbDate.Click += new System.EventHandler(this.tbDate_Click);
             this.tbDate.TextChanged += new System.EventHandler(this.tbDate_TextChanged);
             this.tbDate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbDate_KeyPress);
@@ -72,6 +71,7 @@
             this.Controls.Add(this.tbDate);
             this.Name = "CustomDateTimePicker";
             this.Size = new System.Drawing.Size(113, 27);
+            this.Load += new System.EventHandler(this.CustomDateTimePicker_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

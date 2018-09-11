@@ -74,9 +74,11 @@
             // 
             // myDateTimePicker2
             // 
+            this.myDateTimePicker2.DateFormat = WindowsFormsApp2.ECultureDateFormat.ddmmyyyy;
             this.myDateTimePicker2.Location = new System.Drawing.Point(33, 40);
+            this.myDateTimePicker2.MaximumYear = 2500;
+            this.myDateTimePicker2.MinimumYear = 1850;
             this.myDateTimePicker2.Name = "myDateTimePicker2";
-            this.myDateTimePicker2.Separator = '/';
             this.myDateTimePicker2.Size = new System.Drawing.Size(112, 27);
             this.myDateTimePicker2.TabIndex = 12;
             // 
