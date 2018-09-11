@@ -64,13 +64,13 @@
             this.btnCalendar.UseVisualStyleBackColor = false;
             this.btnCalendar.Click += new System.EventHandler(this.btnCalendar_Click);
             // 
-            // MyDateTimePicker
+            // CustomDateTimePicker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btnCalendar);
             this.Controls.Add(this.tbDate);
-            this.Name = "MyDateTimePicker";
+            this.Name = "CustomDateTimePicker";
             this.Size = new System.Drawing.Size(113, 27);
             this.ResumeLayout(false);
             this.PerformLayout();

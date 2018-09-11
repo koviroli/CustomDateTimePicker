@@ -30,7 +30,7 @@ namespace WindowsFormsApp2
         /// <summary>
         /// DateFormat 
         /// </summary>
-        public ECultureDateFormat dateFormat;
+        public ECultureDateFormat DateFormat { get; set; }
 
         /// <summary>
         /// Separator of Date
@@ -44,8 +44,7 @@ namespace WindowsFormsApp2
         {
             get
             {
-                DateTime temp;
-                if (DateTime.TryParse(tbDate.Text, out temp))
+                if (DateTime.TryParse(tbDate.Text, out DateTime temp))
                     return temp;
                 else
                     return DateTime.Now;
@@ -78,7 +77,7 @@ namespace WindowsFormsApp2
         {
             get
             {
-                switch (dateFormat)
+                switch (DateFormat)
                 {
                     case ECultureDateFormat.ddmmyyyy:
                         return $"dd{Separator}MM{Separator}yyyy";
@@ -98,7 +97,7 @@ namespace WindowsFormsApp2
         {
             get
             {
-                switch (dateFormat)
+                switch (DateFormat)
                 {
                     case ECultureDateFormat.ddmmyyyy:
                         return $"DD{Separator}MM{Separator}YYYY";
@@ -146,10 +145,10 @@ namespace WindowsFormsApp2
         {
             InitializeComponent();
             m_popup = new PopupCalendar();
-            m_popup.Location = new Point(0, 24);
-            m_popup.Mc.DateSelected += _mc_DateSelected;
+            m_popup.Location = new Point(2, 24);
+            m_popup.MCalendar.DateSelected += _mc_DateSelected;
             m_popup.m_tsdd.Closing += M_tsdd_Closing;
-            dateFormat = ECultureDateFormat.ddmmyyyy;
+            DateFormat = ECultureDateFormat.ddmmyyyy;
             Separator = '/';
             SetPlaceholderText();
         }
@@ -163,7 +162,7 @@ namespace WindowsFormsApp2
 
         private void _mc_DateSelected(object sender, DateRangeEventArgs e)
         {
-            tbDate.Text = m_popup.Mc.SelectionStart.ToString(DateFormatText).Replace('/', Separator);
+            tbDate.Text = m_popup.MCalendar.SelectionStart.ToString(DateFormatText).Replace('/', Separator);
             tbDate.ForeColor = Color.Black;
             CloseCalendar();
         }
@@ -242,7 +241,6 @@ namespace WindowsFormsApp2
             {
                 e.Handled = true;
             }
-
         }
 
         private bool IsTwoSeparators()
@@ -280,7 +278,7 @@ namespace WindowsFormsApp2
                 try
                 {
                     var res = -1;
-                    switch (dateFormat)
+                    switch (DateFormat)
                     {
                         case ECultureDateFormat.ddmmyyyy:
                             if (GetFirstSeparatorBefore().Length != 2) return null;
@@ -312,7 +310,7 @@ namespace WindowsFormsApp2
                 try
                 {
                     var res = -1;
-                    switch (dateFormat)
+                    switch (DateFormat)
                     {
                         case ECultureDateFormat.ddmmyyyy:
                             if (GetFirstSeparatorAfter().Length != 2) return null;
@@ -344,7 +342,7 @@ namespace WindowsFormsApp2
                 try
                 {
                     var res = 0;
-                    switch (dateFormat)
+                    switch (DateFormat)
                     {
                         case ECultureDateFormat.ddmmyyyy:
                         case ECultureDateFormat.mmddyyyy:
@@ -368,7 +366,7 @@ namespace WindowsFormsApp2
         private void SetDay(string day)
         {
             string dateWithoutDay;
-            switch (dateFormat)
+            switch (DateFormat)
             {
                 case ECultureDateFormat.ddmmyyyy:
                     if (FirstSeparatorIndex < 0)
@@ -393,7 +391,7 @@ namespace WindowsFormsApp2
 
         private void SetMonth(string month)
         {
-            switch (dateFormat)
+            switch (DateFormat)
             {
                 case ECultureDateFormat.ddmmyyyy:
                     if (SecondSeparatorIndex < 0)
@@ -418,7 +416,7 @@ namespace WindowsFormsApp2
 
         private void SetYear(string year)
         {
-            switch (dateFormat)
+            switch (DateFormat)
             {
                 case ECultureDateFormat.ddmmyyyy:
                     tbDate.Text = $"{GetFirstSeparatorBefore()}{Separator}{GetFirstSeparatorAfter()}{Separator}{year}";
@@ -440,7 +438,7 @@ namespace WindowsFormsApp2
 
         private void JumpToNextCaret()
         {
-            switch (dateFormat)
+            switch (DateFormat)
             {
                 case ECultureDateFormat.ddmmyyyy:
                     if (tbDate.SelectionStart == 2 && GetFirstSeparatorBefore().Length == 2)
@@ -491,7 +489,7 @@ namespace WindowsFormsApp2
         {
             if (tbDate.Text.Equals(PlaceHolderText)) return true;
             bool result = true;
-            switch (dateFormat)
+            switch (DateFormat)
             {
                 case ECultureDateFormat.ddmmyyyy:
                     if (Day != null )
@@ -603,60 +601,37 @@ namespace WindowsFormsApp2
     #region Popup Calendar
     public sealed class PopupCalendar : IDisposable
     {
-        private readonly Control m_control;
         public readonly ToolStripDropDown m_tsdd;
         private readonly Panel m_hostPanel;
-        public MonthCalendar Mc;
+        public MonthCalendar MCalendar { get; set; }
+        public Point Location { get; set; }
 
         public PopupCalendar()
         {
-            Mc = new MonthCalendar();
+            MCalendar = new MonthCalendar();
+            MCalendar.Margin = new Padding(0);
+            MCalendar.Location = new Point(-5, -5);
+
             m_hostPanel = new Panel();
             m_hostPanel.Padding = Padding.Empty;
             m_hostPanel.Margin = Padding.Empty;
             m_hostPanel.TabStop = false;
             m_hostPanel.BorderStyle = BorderStyle.None;
             m_hostPanel.BackColor = Color.Transparent;
+            m_hostPanel.MinimumSize = new Size(220, 100);
+            m_hostPanel.Controls.Add(MCalendar);
 
             m_tsdd = new ToolStripDropDown();
-            m_tsdd.CausesValidation = false;
-           
-            m_tsdd.Padding = Padding.Empty;
-            m_tsdd.Margin = Padding.Empty;
-            m_tsdd.Opacity = 1.0;
-
-            m_control = Mc;
-            m_control.CausesValidation = false;
-            m_control.Resize += MControlResize;
-
-            m_hostPanel.Controls.Add(m_control);
-
-            m_tsdd.Padding = Padding.Empty;
-            m_tsdd.Margin = Padding.Empty;
-
-            m_tsdd.MinimumSize = m_tsdd.MaximumSize = m_tsdd.Size = Mc.Size;
             m_tsdd.Items.Add(new ToolStripControlHost(m_hostPanel));
         }
 
-        private void ResizeWindow()
-        {
-            m_tsdd.MinimumSize = m_tsdd.MaximumSize = m_tsdd.Size = m_control.Size;
-            m_hostPanel.MinimumSize = m_hostPanel.MaximumSize = m_hostPanel.Size = m_control.Size;
-        }
-
-        private void MControlResize(object sender, EventArgs e)
-        {
-            ResizeWindow();
-        }
-
-        public Point Location { get; set; }
         public void Show(Control pParentControl)
         {
             if (pParentControl == null) return;
 
             var loc = pParentControl.PointToScreen(Location);
             m_tsdd.Show(loc);
-            m_control.Focus();
+
         }
 
         public void Close()
@@ -666,7 +641,6 @@ namespace WindowsFormsApp2
 
         public void Dispose()
         {
-            m_control.Resize -= MControlResize;
 
             m_tsdd.Dispose();
             m_hostPanel.Dispose();
